@@ -33,31 +33,31 @@
 //! Histograms are a convenient way to measure behavior not only at the median, but at the edges of
 //! normal operating behavior.
 
-/// A value that records collected metrics.
-pub trait MetricsRecorder {
-    /// Records a counter value.
+/// A value that observes collected metrics.
+pub trait MetricsObserver {
+    /// Observes a counter.
     ///
-    /// From the perspective of a recorder, a counter and gauge are essentially identical, insofar
+    /// From the perspective of an observer, a counter and gauge are essentially identical, insofar
     /// as they are both a single value tied to a key.  From the perspective of a collector,
     /// counters and gauges usually have slightly different modes of operation.
     ///
-    /// For the sake of flexibility on the recording side, we provide both.
-    fn record_counter<K: AsRef<str>>(&mut self, key: K, value: u64);
+    /// For the sake of flexibility on the observer side, both are provided.
+    fn observe_counter<K: AsRef<str>>(&mut self, key: K, value: u64);
 
-    /// Records a gauge value.
+    /// Observes a gauge.
     ///
-    /// From the perspective of a recorder, a counter and gauge are essentially identical, insofar
+    /// From the perspective of a observer, a counter and gauge are essentially identical, insofar
     /// as they are both a single value tied to a key.  From the perspective of a collector,
     /// counters and gauges usually have slightly different modes of operation.
     ///
-    /// For the sake of flexibility on the recording side, we provide both.
-    fn record_gauge<K: AsRef<str>>(&mut self, key: K, value: i64);
+    /// For the sake of flexibility on the observer side, both are provided.
+    fn observe_gauge<K: AsRef<str>>(&mut self, key: K, value: i64);
 
-    /// Records a histogram.
+    /// Observes a histogram.
     ///
     /// The quantiles are expected to be in the format of (quantile, value_at_quantile).
     ///
     /// Quantiles are a value from 0 to 1, inclusive.  Values outside of this range are considered
-    /// invalid, but it is an implementation detail of the recorder on how to handle them.
-    fn record_histogram<K: AsRef<str>>(&mut self, key: K, quantiles: &[(f64, u64)]);
+    /// invalid, but it is an implementation detail of the observer on how to handle them.
+    fn observe_histogram<K: AsRef<str>>(&mut self, key: K, quantiles: &[(f64, u64)]);
 }

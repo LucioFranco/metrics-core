@@ -1,0 +1,8 @@
+[package]
+name = "metrics-prometheus"
+version = "0.1.0"
+authors = ["Lucio Franco <luciofranco14@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+metrics-core = { path = "../metrics-core" }
